@@ -18,7 +18,7 @@ $app->add(new Tuupola\Middleware\JwtAuthentication([
     "rules" => [
         new Tuupola\Middleware\JwtAuthentication\RequestPathRule([
             "path" => "/api",
-            "ignore" => ["/auth"]
+            "ignore" => ["/auth", "/mail"]
         ]),
     ],
     "attribute" => "jwt",
@@ -57,5 +57,7 @@ require_once './src/routes/ventas.php';
 require_once './src/routes/compras.php';
 require_once './src/routes/caja.php';
 require_once './src/routes/user.php';
+require_once './src/routes/estado.php';
+require_once './src/routes/mail.php';
 
 $app->run();

@@ -67,6 +67,32 @@ $app->post('/api/createCompra', function (Request $request, Response $response) 
 });
 
 
+$app->post('/api/editarCompra', function (Request $request, Response $response) use ($app) {
+    try {
+        $decoded = $request->getAttribute("jwt");
+        $controller = new ComprasController();
+        $response->getBody()->write($controller->editarCompra(json_decode(file_get_contents('php://input'), true), $decoded['comercio']));
+        return $response;
+    } catch (PDOException $e) {
+        echo '{"error": {"text"' . $e->getMessage() . '}';
+    }
+});
+
+
+
+$app->post('/api/compra/createPago', function (Request $request, Response $response) use ($app) {
+    try {
+        $decoded = $request->getAttribute("jwt");
+        $controller = new ComprasController();
+        $response->getBody()->write($controller->createPago(json_decode(file_get_contents('php://input'), true), $decoded['comercio']));
+        return $response;
+    } catch (PDOException $e) {
+        echo '{"error": {"text"' . $e->getMessage() . '}';
+    }
+});
+
+
+
 
 $app->post('/api/createArticulosCompra', function (Request $request, Response $response) use ($app) {
     try {
@@ -91,4 +117,15 @@ $app->post('/api/createComprasPagos', function (Request $request, Response $resp
     }
 });
 
+ 
+$app->get('/api/compraEliminar/{id}', function (Request $request, Response $response, $args) {
+    try {
 
+        $controller = new ComprasController();
+        $decoded = $request->getAttribute("jwt");
+        $response->getBody()->write($controller->eliminarCompra($args['id'], $decoded['comercio']));
+        return $response;
+    } catch (PDOException $e) {
+        echo '{"error": {"text"' . $e->getMessage() . '}';
+    }
+});

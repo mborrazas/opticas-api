@@ -26,7 +26,7 @@ class SucursalModel
         $result = $db->query($sql);
         $sucursales = null;
         if ($result->rowCount() > 0) {
-            $sucursales =  $result->fetchAll(PDO::FETCH_OBJ);
+            $sucursales =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;
@@ -43,9 +43,10 @@ class SucursalModel
     }
 
     function editarSucursal($id, $comercio, $numero, $tipo, $telefono1, $telefono2, $email, $fax, $movil, $direccion, $ciudad, $estado, $urbanizacion, $codigoPostal)
-    {
+    {        
+
         $sql = "UPDATE crystal.sucursal SET 
-        comercio=" . $comercio . ",  
+        idComercio=" . $comercio . ",  
         numero=" . $numero . ",    
         tipo='" . $tipo . "',    
         telefono1=" . $telefono1 . ",
@@ -57,7 +58,7 @@ class SucursalModel
         ciudad=" . $ciudad . ",    
         estado=" . $estado . ",    
         urbanizacion='" . $urbanizacion . "',    
-        codigoPostal=" . $codigoPostal . ",    
+        codigoPostal=" . $codigoPostal . "   
         WHERE id=" . $id . " ";
         $db = new db();
         $db = $db->connectionDB();

@@ -20,12 +20,41 @@ class ComprasController
     {       
         $model = new ComprasModel();
         $result = $model->getCompra($id,$comercio);
+        $articulos = $model->getArticulos($id);
+        $pagos = $model->getPagos($id);
+        if ($result) {
+            return json_encode(["compra" => $result, "articulos" => $articulos, "pagos" => $pagos]);
+        } else {
+            return json_encode([]);
+        } 
+    }
+
+    function createPago($body, $comercio){
+        $model = new ComprasModel();
+        $model->deletePagos($body['idCompra']);
+        foreach($body['pagos'] as $pago){
+            $result = $model->createPago($body['idCompra'],$pago['fecha'], $pago['monto'], $pago['tipoPago']);
+        }
+        if ($result) {
+            return json_encode(["result" => $result]);
+        } else {
+            return json_encode([]);
+        }
+    }
+
+
+    function eliminarCompra($id, $comercio)
+    {
+        $model = new ComprasModel();
+        $result = $model->eliminarCompra($id, $comercio);
+
         if ($result) {
             return json_encode($result);
         } else {
             return json_encode([]);
         }
     }
+
 
     function pendientesDePago($comercio)
     {       
@@ -59,12 +88,38 @@ class ComprasController
             $body['proveedor'],
             $body['estado'],
             $body['moneda'],
-            $body['montoTotal'],
             $body['subtotal'],
             $body['descuento'],
             $body['iva'],
             $body['total'],
             $body['pendienteDePago'],
+            $body['pagada'],
+            $comercio
+        );
+        if ($result) {
+            return json_encode($result);
+        } else {
+            return json_encode([]);
+        }
+    }
+
+
+    function editarCompra($body, $comercio)
+    {
+        $model = new ComprasModel();
+        $result = $model->editarCompra(
+            $body['id'],
+            $body['fecha'], 
+            $body['numeroDeFactura'],
+            $body['proveedor'],
+            $body['estado'],
+            $body['moneda'],
+            $body['subtotal'],
+            $body['descuento'],
+            $body['iva'],
+            $body['total'],
+            $body['pendienteDePago'],
+            $body['pagada'],
             $comercio
         );
         if ($result) {
@@ -76,20 +131,26 @@ class ComprasController
 
     function createCompraArticulos($body){
         $model = new ComprasModel();
-        $result = $model->createCompraArticulos(
-            $body['idCompra'],
-            $body['cantidad'],
-            $body['precio'],
-            $body['impuesto'],
-            $body['descuento'],
-            $body['total'],
-            $body['idArticulo']
-        );
+        $model->eliminarArticulos($body['compra']);
+        $articulos  = $body['articles'];
+        foreach ($articulos as $articulo) {
+            $result = $model->createCompraArticulos(
+                $body['compra'],
+                $articulo['cantidad'],
+                $articulo['precioMoneda1'],
+                $articulo['iva'],
+                $articulo['discount'],
+                $articulo['total'],
+                $articulo['id']
+            );
+        }
+
         if ($result) {
             return json_encode($result);
         } else {
             return json_encode([]);
         }
+
     }
 
     function createComprasPagos($body){

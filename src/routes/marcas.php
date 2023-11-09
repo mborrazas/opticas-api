@@ -33,7 +33,7 @@ $app->get('/api/eliminarMarca/{id}', function (Request $request, Response $respo
 
 $app->get('/api/marca/{id}', function (Request $request, Response $response, $args) {
     try {
-        $controller = new ModelosController();
+        $controller = new MarcasController();
         $decoded = $request->getAttribute("jwt");
         $response->getBody()->write($controller->getMarca($args['id'], $decoded['comercio']));
         return $response;

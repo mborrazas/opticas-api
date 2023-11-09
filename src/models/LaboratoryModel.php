@@ -26,7 +26,7 @@ class LaboratoryModel
         $result = $db->query($sql);
         $laboratories = null;
         if ($result->rowCount() > 0) {
-            $laboratories =  $result->fetchAll(PDO::FETCH_OBJ);
+            $laboratories =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;
@@ -54,13 +54,13 @@ class LaboratoryModel
         telefono3='" . $telefono3 . "',
         fax='" . $fax . "',
         direccion='" . $direccion . "',
-        idCiudad='" . $idCiudad . "',
-        idEstado='" . $idEstado . "',
+        idCiudad='" . ($idCiudad == '' ?  0 : $idCiudad) . "',
+        idEstado='" . ($idEstado == '' ? 0 : $idEstado). "',
         urbanizacion='" . $urbanizacion . "',
         codigoPostal='" . $codigoPostal . "',
         responsable='" . $responsable . "',
-        movil='" . $movil . "',
-        emailResponsable='" . $emailResponsable . "',
+        movilResponsable='" . $movil . "',
+        emailResponsable='" . $emailResponsable . "'
         WHERE id=" . $id . " AND comercio=" . $comercio . " ";
         $db = new db();
         $db = $db->connectionDB();

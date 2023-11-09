@@ -26,7 +26,7 @@ class DoctorsModel
         $result = $db->query($sql);
         $doctors = null;
         if ($result->rowCount() > 0) {
-            $doctors =  $result->fetchAll(PDO::FETCH_OBJ);
+            $doctors =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;
@@ -57,11 +57,11 @@ class DoctorsModel
         telefonoHabitacion='" . $telefonoHabitacion . "',
         telefonoOficina='" . $telefonoOficina . "',
         direccion='" . $direccion . "',
-        idCiudad='" . $idCiudad . "',
-        idEstado='" . $idEstado . "',
+        idCiudad='" . ($idCiudad == '' ? 0 : $idCiudad)  . "',
+        idEstado='" . ($idEstado == '' ?  0 : $idEstado)  . "',
         movil='" . $movil . "',
         urbanizacion='" . $urbanizacion . "',
-        codigoPostal='" . $codigoPostal . "',
+        codigoPostal='" . $codigoPostal . "'
         WHERE id=" . $id . " AND comercio=" . $comercio . " ";
         $db = new db();
         $db = $db->connectionDB();

@@ -37,7 +37,7 @@ class TamanosModel
         $result = $db->query($sql);
         $tamanos = null;
         if ($result->rowCount() > 0) {
-            $tamanos =  $result->fetchAll(PDO::FETCH_OBJ);
+            $tamanos =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;

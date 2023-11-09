@@ -26,12 +26,29 @@ class ProductsModel
         $result = $db->query($sql);
         $productos = null;
         if ($result->rowCount() > 0) {
+            $productos =  $result->fetchAll(PDO::FETCH_OBJ)[0];
+        }
+        $result = null;
+        $db = null;
+        return $productos;
+    }
+
+
+    function getStockProduct($id)
+    {
+        $sql = "SELECT * FROM crystal.stock_items WHERE idArticulo=" . $id;
+        $db = new db();
+        $db = $db->connectionDB();
+        $result = $db->query($sql);
+        $productos = null;
+        if ($result->rowCount() > 0) {
             $productos =  $result->fetchAll(PDO::FETCH_OBJ);
         }
         $result = null;
         $db = null;
         return $productos;
     }
+
 
     function createProduct($descripcion, $codigo, $idComercio, $proveedor, $categoria, $modelo, $color, $tamano, $stockTotal, $precioMoneda1, $marca)
     {
@@ -47,7 +64,7 @@ class ProductsModel
     function stockItems($idSucursal, $idArticulo, $stock)
     {
         $sql = "INSERT INTO crystal.stock_items (idSucursal, idArticulo, stock) 
-        VALUES (".$idSucursal.", ".$idArticulo.", ".$stock.")";
+        VALUES (" . $idSucursal . ", " . $idArticulo . ", " . $stock . ")";
         $db = new db();
         $db = $db->connectionDB();
         $db->query($sql);
@@ -57,7 +74,7 @@ class ProductsModel
     function editarProducto($descripcion, $codigo, $idComercio, $proveedor, $categoria, $modelo, $color, $tamano, $stockTotal, $precioMoneda1, $marca, $id)
     {
         $sql = "UPDATE crystal.articulos SET 
-        descripcion='" . $descripcion . "',
+        titulo='" . $descripcion . "',
         codigo='" . $codigo . "',
         idProveedor='" . $proveedor . "',
         idCategoria='" . $categoria . "',
@@ -80,8 +97,17 @@ class ProductsModel
         $db = new db();
         $db = $db->connectionDB();
         $result = $db->query($sql);
+        $this->deleteStock($id);
         return $result;
     }
-    
 
+
+    function deleteStock($idProduct)
+    {
+        $sql = "DELETE FROM crystal.stock_items WHERE idArticulo=" . $idProduct;
+        $db = new db();
+        $db = $db->connectionDB();
+        $result = $db->query($sql);
+        return $result;
+    }
 }

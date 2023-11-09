@@ -26,7 +26,7 @@ class ModelosModel
         $result = $db->query($sql);
         $modelo = null;
         if ($result->rowCount() > 0) {
-            $modelo =  $result->fetchAll(PDO::FETCH_OBJ);
+            $modelo =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;

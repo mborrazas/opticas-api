@@ -51,6 +51,17 @@ $app->post('/api/users/editar/{id}', function (Request $request, Response $respo
     }
 });
 
+$app->post('/api/changePassword', function (Request $request, Response $response, $args) {
+    try {
+        $decoded = $request->getAttribute("jwt");
+        $controller = new UserController();
+        $response->getBody()->write($controller->cambiarContrasena(json_decode(file_get_contents('php://input'), true)));
+        return $response;
+    } catch (PDOException $e) {
+        echo '{"error": {"text"' . $e->getMessage() . '}';
+    }
+});
+
 
 $app->post('/api/createUser', function (Request $request, Response $response, $args) {
     try {

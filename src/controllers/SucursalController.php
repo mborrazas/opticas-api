@@ -30,28 +30,29 @@ class SucursalController
 
     function editarSucursal($body, $id, $comercio)
     {
-        $model = new SucursalModel();
-        $result = $model->editarSucursal(
-            $id,
-            $comercio,
-            $body['numero'],
-            $body['tipo'],
-            $body['telefono1'],
-            $body['telefono2'],
-            $body['email'],
-            $body['fax'],
-            $body['movil'],
-            $body['direccion'],
-            $body['ciudad'],
-            $body['estado'],
-            $body['urbanizacion'],
-            $body['codigoPostal'],
-        );
-        if ($result) {
-            return json_encode($result);
-        } else {
-            return json_encode([]);
-        }
+        $model = new SucursalModel(); 
+             $result = $model->editarSucursal(
+                $id,
+                $comercio,
+                $body['numero'],
+                $body['tipo'],
+                $body['telefono1'],
+                $body['telefono2'],
+                $body['email'],
+                $body['fax'],
+                $body['movil'],
+                $body['direccion'],
+                $body['ciudad'],
+                $body['estado'],
+                $body['urbanizacion'],
+                $body['codigoPostal']
+            );
+            if ($result) {
+                return json_encode($result);
+            } else {
+                return json_encode([]);
+            }
+        
     }
 
     function eliminarSecursal($id, $comercio)

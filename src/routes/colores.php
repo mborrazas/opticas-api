@@ -18,11 +18,34 @@ $app->get('/api/colores', function (Request $request, Response $response) {
     }
 });
 
+$app->get('/api/color/{id}', function (Request $request, Response $response, $args) {
+    try {
+        $controller = new ColoresController();
+        $decoded = $request->getAttribute("jwt");
+        $response->getBody()->write($controller->getColor($args['id'], $decoded['comercio']));
+        return $response;
+    } catch (PDOException $e) {
+        echo '{"error": {"text"' . $e->getMessage() . '}';
+    }
+});
+
 $app->get('/api/colores/delete/{id}', function (Request $request, Response $response, $args) {
     try {
         $decoded = $request->getAttribute("jwt");
         $controller = new ColoresController();
         $response->getBody()->write($controller->eliminarColor($args['id'], $decoded['comercio']));
+        return $response;
+    } catch (PDOException $e) {
+        echo '{"error": {"text"' . $e->getMessage() . '}';
+    }
+});
+
+
+$app->post('/api/editarColor/{id}', function (Request $request, Response $response, $args) {
+    try {
+        $controller = new ColoresController();
+        $decoded = $request->getAttribute("jwt");
+        $response->getBody()->write($controller->editarColor(json_decode(file_get_contents('php://input'), true), $args['id'], $decoded['comercio']));
         return $response;
     } catch (PDOException $e) {
         echo '{"error": {"text"' . $e->getMessage() . '}';

@@ -32,7 +32,7 @@ $app->get('/api/tamano/{id}', function (Request $request, Response $response, $a
 });
 
 
-$app->post('/api/tamano/{id}', function (Request $request, Response $response, $args) {
+$app->post('/api/editarTamano/{id}', function (Request $request, Response $response, $args) {
     try {
         $controller = new TamanosController();
         $decoded = $request->getAttribute("jwt");

@@ -5,9 +5,8 @@ class UserModel
 
     function createUser($ci, $password, $idComercio, $email, $nombre, $tipo, $sucursal, $genero, $fechaNacimiento, $movil, $telefonoHabitacion, $hobbie, $direccion, $ciudad, $estado, $urbanizacion, $codigoPostal)
     {
-        $creation = '';
-        $sql = "INSERT INTO crystal.usuarios (ci, password, creation, idComercio, email, nombre, tipo, sucursal, genero, fechaNacimiento, movil, telefonoHabitacion, hobbie, direccion, ciudad, estado, urbanizacion, codigoPostal) 
-        VALUES ('" . $ci . "', '" . $password . "', '" . $creation . "', " . $idComercio . ", '" . $email . "', '" . $nombre . "', '" . $tipo . "', " . $sucursal . ", '" . $genero . "', '" . $fechaNacimiento . "', '" . $movil . "', '" . $telefonoHabitacion . "', '" . $hobbie . "', '" . $direccion . "', " . $ciudad . ", " . $estado . ", '" . $urbanizacion . "', " . $codigoPostal . ");";
+        $sql = "INSERT INTO crystal.usuarios (ci, password,  idComercio, email, nombre, tipo, sucursal, genero, fechaNacimiento, movil, telefonoHabitacion, hobbie, direccion, ciudad, estado, urbanizacion, codigoPostal) 
+        VALUES ('" . $ci . "', '" . $password . "', " . $idComercio . ", '" . $email . "', '" . $nombre . "', '" . $tipo . "', '" . $sucursal . "', '" . $genero . "', '" . $fechaNacimiento . "', '" . $movil . "', '" . $telefonoHabitacion . "', '" . $hobbie . "', '" . $direccion . "', '" . $ciudad . "', '" . $estado . "', '" . $urbanizacion . "', '" . $codigoPostal . "');";
         $db = new db();
         $db = $db->connectionDB();
         $db->query($sql);
@@ -50,6 +49,17 @@ class UserModel
         return true;
     }
 
+    function editPassword($ci, $password){
+        $sql = "UPDATE crystal.usuarios SET 
+        password='" . $password . "'
+        WHERE ci=" . $ci . " ";
+        $db = new db();
+        $db = $db->connectionDB();
+        $db->query($sql);
+        return true;
+    }
+
+
     function getUser($id, $comercio)
     {
         $db = new db();
@@ -59,7 +69,7 @@ class UserModel
         $result = $db->query($sql);
         $auth = null;
         if ($result->rowCount() > 0) {
-            $auth =  $result->fetchAll(PDO::FETCH_OBJ);
+            $auth =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;

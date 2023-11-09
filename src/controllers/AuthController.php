@@ -5,11 +5,12 @@ use Firebase\JWT\JWT;
 
 class AuthController
 {
+    
 
-    function getAuth()
+    function getAuth($body)
     {
         $model = new AuthModel();
-        $result = $model->auth('123', '123');
+        $result = $model->auth($body['ci'], $body['password']);
         if ($result) {
 
             $payload = [

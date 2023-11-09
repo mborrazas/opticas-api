@@ -69,6 +69,19 @@ class UserController
         }
     }
 
+    function cambiarContrasena($body){
+        $model = new UserModel();
+        $result = $model->editPassword(
+            $body['ci'], 
+            $body['password']
+        );
+        if ($result) {
+            return json_encode($result);
+        } else {
+            return json_encode([]);
+        }
+    }
+
     function createUser($body, $comercio)
     {
         $model = new UserModel();

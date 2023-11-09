@@ -22,7 +22,7 @@ class MarcasController
         $model = new MarcasModel();
         $result = $model->getMarca($id, $comercio);
         if ($result) {
-            return json_encode($result);
+            return json_encode($result[0]);
         } else {
             return json_encode([]);
         }

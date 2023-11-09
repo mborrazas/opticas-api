@@ -76,7 +76,6 @@ class ClientsController
             $body['ci'], 
             $body['genero'],
             $body['fNacimiento'], 
-            $body['edad'],
             $body['ocupacion'],
             $body['email'],
             $body['telefono1'],

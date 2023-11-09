@@ -19,9 +19,10 @@ class ProductsController
     function getProduct($id, $comercio)
     {
         $model = new ProductsModel();
-        $result = $model->getProduct($id, $comercio);
-        if ($result) {
-            return json_encode($result);
+        $product = $model->getProduct($id, $comercio);
+        $stock = $model->getStockProduct($id);
+        if ($product) {
+            return json_encode(["product" => $product, "stock" => $stock]);
         } else {
             return json_encode([]);
         }
@@ -90,11 +91,14 @@ class ProductsController
 
     function createStockProduct($body){
         $model = new ProductsModel();
-        $result = $model->stockItems(
-            $body['idSucursal'], 
-            $body['idArticulo'], 
-            $body['stock']
-        );
+        $model->deleteStock($body['idArticulo']);
+        foreach($body['stocks'] as $item){
+            $result = $model->stockItems(
+                $item['sucursalId'], 
+                $body['idArticulo'], 
+                $item['stock']
+            );
+        }
         if ($result) {
             return json_encode($result);
         } else {

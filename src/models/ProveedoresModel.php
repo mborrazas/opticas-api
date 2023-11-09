@@ -26,7 +26,7 @@ class ProveedoresModel
         $result = $db->query($sql);
         $proveedores = null;
         if ($result->rowCount() > 0) {
-            $proveedores =  $result->fetchAll(PDO::FETCH_OBJ);
+            $proveedores =  $result->fetchAll(PDO::FETCH_OBJ)[0];
         }
         $result = null;
         $db = null;

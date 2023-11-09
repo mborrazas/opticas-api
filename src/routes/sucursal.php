@@ -61,7 +61,8 @@ $app->post('/api/sucursal/editar/{id}', function (Request $request, Response $re
         $controller = new SucursalController();
         $response->getBody()->write($controller->editarSucursal(json_decode(file_get_contents('php://input'), true), $args['id'], $decoded['comercio']));
         return $response;
-    } catch (PDOException $e) {
-        echo '{"error": {"text"' . $e->getMessage() . '}';
+
+    } catch (PDOException $e) { 
+        return $response->getBody()->write('{"error": {"text"' . $e->getMessage() . '}');
     }
 });
